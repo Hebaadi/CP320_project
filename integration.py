@@ -10,12 +10,16 @@ GPIO.setmode(GPIO.BCM)
 triggerPIN = 18
 echoPIN = 24
 servoPIN = 17
+motor_clockwise = 5
+motor_anticlockwise = 6
 
 
 #set GPIO direction (IN / OUT)
 GPIO.setup(triggerPIN, GPIO.OUT)
 GPIO.setup(echoPIN, GPIO.IN)
 GPIO.setup(servoPIN, GPIO.OUT)
+GPIO.setup(motor_clockwise, GPIO.OUT)
+GPIO.setup(motor_anticlockwise, GPIO.OUT)
 
 
 #start servo at angle 0
@@ -79,6 +83,17 @@ try:
             set_servo(angle)
         else:
             set_servo(12.5)
+
+        #setting motor direction
+        if dist>1 and dist<3:
+            GPIO.output(motor_clockwise, TRUE)
+            GPIO.output(motor_anticlockwise, FALSE)
+        elif dist>3 and dist<5:
+            GPIO.output(motor_clockwise, FALSE)
+            GPIO.output(motor_anticlockwise, TRUE)
+        else:
+            GPIO.output(motor_clockwise, FALSE)
+            GPIO.output(motor_anticlockwise, FALSE)
 
 except KeyboardInterrupt:
     pass
